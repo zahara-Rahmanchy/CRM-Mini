@@ -1,22 +1,27 @@
-// import express from "express";
-// // import {userRoutes} from "../app/modules/User/user.routes";
-// // import {AuthRoutes} from "../app/modules/Auth/auth.routes";
+import express from "express";
+import { UserRoutes } from "../app/modules/User/UserRoute";
+import { AuthRoutes } from "../app/modules/Auth/AuthRoute";
+import { ClientRoutes } from "../app/modules/Clients/ClientRoutes";
 
 
-// const router = express.Router();
 
-// const moduleRoutes = [
-//   {
-//     path: "/",
-//     route: userRoutes,
-//   },
-//   {
-//     path: "/",
-//     route: AuthRoutes,
-//   },
- 
-// ];
+const router = express.Router();
 
-// moduleRoutes.forEach(route => router.use(route.path, route.route));
+const moduleRoutes = [
+  {
+    path: "/",
+    route: UserRoutes
+  },
+  {
+    path: "/",
+    route: AuthRoutes,
+  },
+  {
+    path: "/",
+    route: ClientRoutes,
+  },
+];
 
-// export default router;
+moduleRoutes.forEach(route => router.use(route.path, route.route));
+
+export default router;
