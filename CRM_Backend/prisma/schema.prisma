@@ -32,7 +32,7 @@ model Clients {
   client_id String @id @unique @default(uuid())
   userId String
   name String
-  email String
+  email String @unique
   phone String
   company String?
   notes String?

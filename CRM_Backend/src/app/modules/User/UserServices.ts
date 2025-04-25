@@ -1,7 +1,7 @@
 import httpStatus from "http-status";
 import prisma from "../../../shared/prisma";
 import { IUser } from "./UserInterface"
-import ApiError from "../../../Errors/ApiError";
+import ApiError from "../../Errors/ApiError";
 import * as bcrypt from "bcrypt";
 import { userRoles } from "@prisma/client";
 const registerUser = async(data:IUser)=>{
