@@ -25,6 +25,7 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   client Clients[]
+  // interationLog InteractionLogs[]
   @@map("users")
 }
 model Clients {
@@ -35,10 +36,11 @@ model Clients {
   phone String
   company String?
   notes String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
   user User @relation(fields: [userId], references: [id])
   projects Projects[]
+  // interationLog InteractionLogs[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   @@map("clients")
 }
 
@@ -49,9 +51,47 @@ model Projects {
   budget Float
   deadline DateTime
   status ProjectStatus
+  // interationLog InteractionLogs[]
   client Clients @relation(fields: [client_id],references: [client_id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   @@map("projects")
 }
+
+
+// model InteractionLogs{
+//   interaction_id String @id @unique @default(uuid())
+//   date            DateTime
+//   type            InteractionType  // Enum: 'CALL', 'MEETING', 'EMAIL', etc.
+//   notes           String
+//   projectId       String?     // if linked to a project
+//   clientId        String?     // if linked directly to a client
+//   createdByUserId String      // to track who added the log
+
+//   project         Projects?    @relation(fields: [projectId], references: [project_id])
+//   client          Clients?     @relation(fields: [clientId], references: [client_id])
+//   User   User        @relation(fields: [createdByUserId], references: [id])
+
+
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+ 
+
+// }
+// model Reminders {
+//   id          String   @id @unique @default(uuid())
+//   message     String   // What the reminder is about
+//   date        DateTime // When to be reminded
+//   userId      String   // Which user the reminder belongs to
+//   projectId   String?  // If it's related to a project
+//   clientId    String?  // If it's related to a client
+//   createdAt   DateTime @default(now())
+//   updatedAt   DateTime @updatedAt
+
+//   user        User     @relation(fields: [userId], references: [id])
+//   project     Projects? @relation(fields: [projectId], references: [project_id])
+//   client      Clients?  @relation(fields: [clientId], references: [client_id])
+// }
 
 // other can be added later
 enum userRoles {
@@ -71,3 +111,8 @@ enum ProjectStatus {
   CANCELLED
 }
 
+enum InteractionType {
+  CALL 
+  MEETING 
+  EMAIL
+}
