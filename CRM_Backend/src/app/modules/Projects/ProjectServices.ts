@@ -95,10 +95,49 @@ const updateProjectData = async(projectId:string,userId:string,data:Partial<Proj
 
 }
 
-
+const deleteProjectFromDB = async (id: string,userId:string) => {
+    const isProject = await prisma.projects.findFirst({
+        where: {
+          project_id: id,
+          client:{
+            userId
+         }
+        },
+        
+      });
+      
+      if (!isProject) {
+        throw new ApiError(httpStatus.NOT_FOUND, "Client not found or unauthorized.");
+      }
+      
+      
+      
+    // const result = await prisma.clients.delete({
+    //   where: {
+    //     client_id:id,
+    //   },
+    // });
+    const result = await prisma.$transaction([
+        // prisma.interaction_logs.deleteMany({ where: { client_id: id } }),
+        // prisma.reminders.deleteMany({ where: { client_id: id } }),
+        prisma.projects.delete({  
+        where: {
+            project_id: id,
+            client:{
+              userId
+           }
+          },
+        }),
+      ]);
+    
+      console.log("Deleted project data", result);
+      return result;
+  
+  };
 
 export const ProjectServices={
     createProjectInDB,
     getProjectsFromDB,
-    updateProjectData
+    updateProjectData,
+    deleteProjectFromDB
 } 

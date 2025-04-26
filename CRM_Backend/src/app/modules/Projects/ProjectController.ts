@@ -71,8 +71,31 @@ const createClient = async(req:Request,res:Response,next:NextFunction)=>{
         }
 } 
 
+const deleteProject= async (req:Request,res:Response,next:NextFunction) => {
+    console.log("user controller:", req.body, "id", req.params);
+    try {
+        
+        const result = await ProjectServices.deleteProjectFromDB(
+            req.params.projectId,
+            String(req.user?.id),
+            );
+    
+        sendResponse(res, {
+            success: true,
+            statusCode: httpStatus.OK,
+            message: "Project data deleted successfully",
+            data: result,
+        });
+    }
+        catch(err){
+        console.log("error updating client: ",err);
+        next(err)
+        }
+} 
+
  export const ProjectController={
     createClient,
     getClients,
-    updateProject
+    updateProject,
+    deleteProject
  }

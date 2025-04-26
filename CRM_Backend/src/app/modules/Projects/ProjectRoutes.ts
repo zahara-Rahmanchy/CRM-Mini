@@ -22,3 +22,8 @@ router.patch("/update-project/:projectId",auth(userRoles.User),
   isUserPresent,
   ProjectController.updateProject
 )
+
+router.delete("/delete-project/:projectId",auth(userRoles.User),
+  isUserPresent,
+  ProjectController.deleteProject
+)
