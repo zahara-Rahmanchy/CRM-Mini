@@ -15,9 +15,12 @@ router.post("/client",auth(userRoles.User),
 )
 
 // looged in user clients-- specific clients of specific user
-router.get("/clients",auth(userRoles.User),
-  
+router.get("/get-clients",auth(userRoles.User),
   ClientControllers.getClients
 )
 
+
+router.delete("/delete-client/:clientId",auth(userRoles.User),
+  ClientControllers.deleteClient
+)
 export const ClientRoutes = router;

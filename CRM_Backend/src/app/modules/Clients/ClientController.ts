@@ -45,7 +45,57 @@ const getClients = async(req:Request,res:Response,next:NextFunction)=>{
     }
  
  }
+
+ const updateClientData = async (req:Request,res:Response,next:NextFunction) => {
+    console.log("user controller:", req.body, "id", req.params);
+    try {
+        
+        const result = await ClientServices.updateClient(
+            req.params.client_id,
+            String(req.user?.id),
+            req.body
+
+        );
+    
+        sendResponse(res, {
+            success: true,
+            statusCode: httpStatus.OK,
+            message: "Client data updated successfully",
+            data: result,
+        });
+    }
+        catch(err){
+        console.log("error updating client: ",err);
+        next(err)
+        }
+}
+
+ const deleteClient = async (req:Request,res:Response,next:NextFunction) => {
+    console.log("user controller:", req.body, "id", req.params);
+    try {
+
+        const result = await ClientServices.deleteClientFromDB(
+            req.params.client_id,
+            String(req.user?.id),
+        );
+    
+        sendResponse(res, {
+            success: true,
+            statusCode: httpStatus.OK,
+            message: "Client data deleted successfully",
+            data: result,
+        });
+    }
+        catch(err){
+        console.log("error from client: ",err);
+        next(err)
+        }
+}
+  
+  
 export const ClientControllers={
     createClient,
-    getClients
+    getClients,
+    updateClientData,
+    deleteClient
 }

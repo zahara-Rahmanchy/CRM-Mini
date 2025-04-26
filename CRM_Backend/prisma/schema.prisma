@@ -32,7 +32,7 @@ model Clients {
   client_id String @id @unique @default(uuid())
   userId String
   name String
-  email String @unique
+  email String 
   phone String
   company String?
   notes String?
@@ -41,6 +41,7 @@ model Clients {
   // interationLog InteractionLogs[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  @@unique([userId, email])
   @@map("clients")
 }
 
