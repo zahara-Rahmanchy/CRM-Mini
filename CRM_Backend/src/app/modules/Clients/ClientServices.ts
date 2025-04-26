@@ -63,7 +63,15 @@ const getClientsFromDB = async (userId: string, search?: string) => {
 
 //   update,first check email if same client email exists for this user then not
 const updateClient = async (clientId: string, userId: string, data: Partial<Clients>) => {
-   
+    const isUserExists = await prisma.user.findFirst({
+        where: {
+          id: userId,
+        },
+      });
+    
+      if (!isUserExists) {
+        throw new ApiError(httpStatus.BAD_REQUEST, "User doesn't exists!", "", "");
+      }
     if (data.email) {
       const existing = await prisma.clients.findFirst({
         where: {

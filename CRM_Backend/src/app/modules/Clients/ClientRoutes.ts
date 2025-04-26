@@ -18,7 +18,10 @@ router.post("/client",auth(userRoles.User),
 router.get("/get-clients",auth(userRoles.User),
   ClientControllers.getClients
 )
-
+router.patch("/update-client/:clientId",auth(userRoles.User),
+  validateRequest(clientValidationSchemas.updateClientSchema),
+  ClientControllers.updateClientData
+)
 
 router.delete("/delete-client/:clientId",auth(userRoles.User),
   ClientControllers.deleteClient

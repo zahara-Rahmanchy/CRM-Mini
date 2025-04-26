@@ -16,6 +16,16 @@ const clientInputValidation = z.object({
 })
 
 
+ const updateClientSchema = z.object({
+  name: z.string().optional(),
+  email: z.string().email().optional(),
+  phone: z.string().optional(),
+  company: z.string().optional(),
+  notes: z.string().optional(),
+});
+
+
 export const clientValidationSchemas={
-    clientInputValidation
+    clientInputValidation,
+    updateClientSchema
 }
