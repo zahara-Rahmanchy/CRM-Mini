@@ -1,6 +1,6 @@
 // context/AuthContext.tsx
-import { createContext, useContext, useEffect, useState } from 'react';
-import { verifyToken } from '../utils/decodeToken'; 
+import { createContext,  useEffect, useState } from 'react';
+import { decodeToken } from '../utils/decodeToken'; 
 import Cookies from 'js-cookie';
 
 interface AuthContextType {
@@ -15,9 +15,14 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     const token = Cookies.get('accessToken');
+    console.log('Token from Cookies:', token); // Log the token to check its format
     if (token) {
-      const user = decodeToken(token); // Decoding token to get user info
-      setCurrentUser(user);
+      try {
+        const user = decodeToken(token); // Decoding token to get user info
+        setUser(user);
+      } catch (error) {
+        console.error('Error decoding token:', error);
+      }
     }
   }, []);
 

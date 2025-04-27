@@ -8,6 +8,7 @@ import Clients from "../pages/AuthenticatedPages/Clients"
 import Projects from "../pages/AuthenticatedPages/Projects"
 import InteractionLogs from "../pages/AuthenticatedPages/InteractionLogs"
 import Login from "../components/Login";
+import ProtectedRoute from "./ProtectedRoute";
 export const router = createBrowserRouter([
     {
         element: <Home/>,
@@ -21,7 +22,9 @@ export const router = createBrowserRouter([
         ]
     },
     {
-        element:<AppLayout/>,
+        element:<ProtectedRoute>
+                <AppLayout/>
+            </ProtectedRoute>,
         children:[
             {
                 path:"/Dashboard", element:<Dashboard/>

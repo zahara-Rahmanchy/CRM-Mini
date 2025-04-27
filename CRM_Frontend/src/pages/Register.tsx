@@ -1,79 +1,36 @@
-
-
-// const Register = () => {
-//   return (
-//     <div className="rounded-2xl bg-white dark:bg-gray-900 shadow-lg w-full max-w-md p-8 flex flex-col gap-6 relative lg:right-20 ">
-//     <h1 className="text-2xl font-bold text-center text-gray-900 dark:text-white mb-4">
-//       Register to CRM
-//     </h1>
-
-//     <form className="flex flex-col gap-4">
-//     <input
-//         className="border border-gray-300 dark:border-gray-700 rounded-lg px-4 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-teal-400"
-//         type="text"
-//         placeholder="Name"
-//       />
-//       <input
-//         className="border border-gray-300 dark:border-gray-700 rounded-lg px-4 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-teal-400"
-//         type="email"
-//         placeholder="Email address"
-//       />
-
-//       <input
-//         className="border border-gray-300 dark:border-gray-700 rounded-lg px-4 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-teal-400"
-//         type="password"
-//         placeholder="Password"
-//       />
-
-//       <button
-//         type="submit"
-//         className="bg-teal-600 hover:bg-teal-700 text-white font-semibold py-2 rounded-lg mt-2 transition"
-//       >
-//         Register
-//       </button>
-//     </form>
-
-//     <p className="text-center text-sm text-gray-600 dark:text-gray-400 mt-4">
-//        Already have an account?{" "}
-//       <span className="text-teal-600 dark:text-teal-400 font-medium hover:underline cursor-pointer">
-//         Login
-//       </span>
-//     </p>
-//   </div>
-//   )
-// }
-
-// export default Register
-
 import { useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { RegisterForm, registerSchema } from '../utils/SchemaValidation/AuthValidation';
 import { registerUser } from '../api/authApi';
 import { Link, useNavigate } from 'react-router-dom';
-
-
+import { useState } from 'react';
 
 const Register = () => {
   const { register, handleSubmit, formState: { errors } , reset} = useForm<RegisterForm>({
     resolver: zodResolver(registerSchema), // Use Zod resolver here
   });
+  const [loading,setLoading] = useState(false);
   const navigate = useNavigate()
-  const { isLoading,mutate } = useMutation( {
+  const { mutate } = useMutation( {
     mutationFn:registerUser,
     onSuccess: (data) => {
       console.log("registed: ",data)
+      setLoading(false)
       alert('Registration Successful! You can now log in!');
       reset()
       navigate("/")
       
     },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onError: (error: any) => {
+      setLoading(false)
       alert(error?.response?.data?.message || 'Registration failed!');
     },
   });
 
   const onSubmit = (data: { name: string; email: string; password: string }) => {
+    setLoading(true)
     console.log("form data: ",data)
     mutate(data);
   };
@@ -118,10 +75,10 @@ const Register = () => {
 
         <button
           type="submit"
-          disabled={isLoading}
+          disabled={loading}
           className="cursor-pointer bg-teal-600 hover:bg-teal-700 text-white font-semibold py-2 rounded-lg mt-2 transition"
         >
-          {isLoading ? (
+          {loading ? (
             <div className="w-5 h-5 border-4 border-t-4 border-teal-600 border-solid rounded-full animate-spin"></div> // Tailwind spinner
             ) : (
               'Register'

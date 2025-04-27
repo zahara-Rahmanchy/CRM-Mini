@@ -1,7 +1,14 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
 
-const Sidebar = ({ sidebarOpen }) => {
+import { Link, useNavigate } from 'react-router-dom';
+import { key, removeToken } from '../utils/cookieHelper';
+
+const Sidebar = ({ sidebarOpen }:{sidebarOpen:boolean}) => {
+  const navigate = useNavigate();
+  const handleLogout = ()=>{
+    removeToken(key)
+    navigate("/")
+  }
+
   return (
     <aside
       className={`
@@ -23,10 +30,11 @@ const Sidebar = ({ sidebarOpen }) => {
         <Link to="/Client">Clients</Link>
         <Link to="/InteractionLogs">Interaction Logs</Link>
         <button
-        type=""
-        className="bg-teal-800 hover:bg-teal-700 dark:bg-gray-700 dark:hover:bg-gray-900 text-white font-semibold py-2 rounded-lg mt-2 transition"
+         type="button"
+         onClick={handleLogout}
+         className="cursor-pointer bg-teal-800 hover:bg-teal-700 dark:bg-gray-700 dark:hover:bg-gray-900 text-white font-semibold py-2 rounded-lg mt-2 transition"
       >
-       Logout
+          Logout
       </button>
       </nav>
     </aside>
