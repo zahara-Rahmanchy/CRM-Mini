@@ -5,8 +5,17 @@ import { fetchProjects, deleteProject } from '../../api/projectApi';
 import { IProjectUpdate } from '../../Interfaces/ProjectInterface';
 
 import UpdateProjectModal from './UpdateProjectModal';
-import { statuses } from '../../utils/Statuses';
-
+// import { statuses } from '../../utils/Statuses';
+const statuses = [
+  "DRAFT",
+  "PROPOSAL_SENT",
+  "NEGOTIATION",
+  "IN_PROGRESS",
+  "WAITING_ON_CLIENT",
+  "ON_HOLD",
+  "COMPLETED",
+  "CANCELLED",
+];
 const Thead = [
   "Title",
   "Client",

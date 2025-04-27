@@ -5,7 +5,7 @@ import { fetchDashboardStatistics } from '../../api/metaDataApi';
 const Dashboard = () => {
   const { 
     data: dashboardStats, 
-    isLoading: projectLoading, 
+    // isLoading: projectLoading, 
     error: projectError 
   } = useQuery({
     queryKey: ['dashboardStatistics'], 

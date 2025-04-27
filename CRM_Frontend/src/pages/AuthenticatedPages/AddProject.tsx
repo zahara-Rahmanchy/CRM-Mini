@@ -4,10 +4,19 @@ import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import { createProject } from "../../api/projectApi";
 import { useLocation } from "react-router-dom";
-import { statuses } from "../../utils/Statuses";
+
 import { IAddProject } from "../../Interfaces/ProjectInterface";
 
-
+const statuses = [
+    "DRAFT",
+    "PROPOSAL_SENT",
+    "NEGOTIATION",
+    "IN_PROGRESS",
+    "WAITING_ON_CLIENT",
+    "ON_HOLD",
+    "COMPLETED",
+    "CANCELLED",
+  ];
 const AddProject = () => {
     const location = useLocation();
     // const navigate=useNavigate()

@@ -6,8 +6,16 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateProject } from "../../api/projectApi";
 import { useEffect, useState } from "react";
 import { ProjectFormData, projectUpdateSchema } from "../../utils/SchemaValidation/ProjectSchema";
-import { statuses } from "../../utils/Statuses";
-// import { statuses } from "../../utils/Statuses";
+const statuses = [
+    "DRAFT",
+    "PROPOSAL_SENT",
+    "NEGOTIATION",
+    "IN_PROGRESS",
+    "WAITING_ON_CLIENT",
+    "ON_HOLD",
+    "COMPLETED",
+    "CANCELLED",
+  ];
 
 interface UpdateProjectModalProps {
   project: IProjectUpdate;
