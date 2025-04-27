@@ -1,15 +1,18 @@
 import './App.css';
 
 import Home from './pages/Home';
+import ThemeButton from "./components/ThemeButton"
 
 function App() {
  
   return (
-    <>
-     <h1>lorem20
-     </h1>
+    
+  <>  
+  vghhh
      {/* <Home/> */}
-    </>
+     
+  </>
+   
   );
 }
 
