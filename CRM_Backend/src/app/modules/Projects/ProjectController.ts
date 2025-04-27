@@ -3,6 +3,7 @@ import { NextFunction, Request, Response } from "express";
 import sendResponse from "../../../shared/sendResponse";
 import httpStatus from "http-status";
 import { ProjectServices } from "./ProjectServices";
+import { ProjectStatus } from "@prisma/client";
 
 const createClient = async(req:Request,res:Response,next:NextFunction)=>{
 
@@ -29,9 +30,10 @@ const createClient = async(req:Request,res:Response,next:NextFunction)=>{
 
     try{
      const result = await ProjectServices.getProjectsFromDB(
+         String(req.user?.id),
          String(req.query?.search),
-         String(req.query?.status),
-         String(req.user?.id)
+         req.query?.status as ProjectStatus,
+         
        );
    
        sendResponse(res, {
@@ -52,8 +54,8 @@ const createClient = async(req:Request,res:Response,next:NextFunction)=>{
     try {
         
         const result = await ProjectServices.updateProjectData(
-            req.params.projectId,
             String(req.user?.id),
+            req.params.projectId,
             req.body
 
         );

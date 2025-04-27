@@ -42,7 +42,8 @@ const createClientIntoDB = async (data: IClientData, id: string) => {
   };
 
 //   get and also search based on name,email or company
-const getClientsFromDB = async (userId: string, search?: string) => {
+const getClientsFromDB = async (userId: string,search?: string,) => {
+  console.log("userID: ",userId)
     const clients = await prisma.clients.findMany({
       where: {
         userId,
@@ -57,7 +58,7 @@ const getClientsFromDB = async (userId: string, search?: string) => {
         createdAt: 'desc',
       },
     });
-  
+    console.log("clients: ",clients)
     return clients; 
   };
 
@@ -88,8 +89,7 @@ const updateClient = async (clientId: string, userId: string, data: Partial<Clie
   
     const updatedClient = await prisma.clients.update({
       where: { 
-        userId,
-        client_id: clientId 
+       client_id: clientId 
     },
       data,
     });

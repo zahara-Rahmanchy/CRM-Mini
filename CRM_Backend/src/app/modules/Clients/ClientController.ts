@@ -25,13 +25,14 @@ const createClient = async(req:Request,res:Response,next:NextFunction)=>{
 
 }
 const getClients = async(req:Request,res:Response,next:NextFunction)=>{
-
+    console.log("req.eury: ",req.user)
     try{
      const result = await ClientServices.getClientsFromDB(
+         String(req?.user?.id),
          String(req.query?.search),
-         String(req.user?.id)
+         
        );
-   
+        console.log("result con: ",result)
        sendResponse(res, {
          success: true,
          statusCode: httpStatus.CREATED,
@@ -51,7 +52,7 @@ const getClients = async(req:Request,res:Response,next:NextFunction)=>{
     try {
         
         const result = await ClientServices.updateClient(
-            req.params.client_id,
+            req.params.clientId,
             String(req.user?.id),
             req.body
 

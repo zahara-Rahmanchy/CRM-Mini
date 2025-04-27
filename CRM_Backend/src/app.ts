@@ -8,6 +8,7 @@ import express, {
 import cors from "cors";
 
 import httpStatus from "http-status";
+import router from "./app/routes";
 
 
 
@@ -25,7 +26,7 @@ app.get("/", (req: Request, res: Response) => {
   });
 });
 
-// app.use("/api/v1", router);
+app.use("/api/v1", router);
 
 //TODO: global error handler middleware used for handling all the errors and providing details
 

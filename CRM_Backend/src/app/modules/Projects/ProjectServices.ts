@@ -8,15 +8,15 @@ import { assert } from "console";
 const createProjectInDB = async(userId:string,data:CreateProjectBody)=>{
     const { title,budget,deadline,status} = data
 
-    // const isUserExists = await prisma.user.findFirst({
-    //     where: {
-    //       id: userId,
-    //     },
-    //   });
+    const isUserExists = await prisma.user.findFirst({
+        where: {
+          id: userId,
+        },
+      });
     
-    //   if (!isUserExists) {
-    //     throw new ApiError(httpStatus.BAD_REQUEST, "User doesn't exists!", "", "");
-    //   }
+      if (!isUserExists) {
+        throw new ApiError(httpStatus.BAD_REQUEST, "User doesn't exists!", "", "");
+      }
       const isClientExists = await prisma.clients.findFirst({
         where:{
             userId,
@@ -44,38 +44,95 @@ const createProjectInDB = async(userId:string,data:CreateProjectBody)=>{
     return result
 }
 
-const getProjectsFromDB = async (userId: string, search?: string,status?:string) => {
-    const projects = await prisma.projects.findMany({
-      where: {
-        client:{
-            userId
-        },
-        OR:[
-           search? { title: { contains: search, mode: 'insensitive' } }:{},
-           status? { status: status.toUpperCase() as ProjectStatus }:{},
-            
-        ]
-         
-      },
-      orderBy: {
-        deadline: 'desc',
-      },
-    });
+// const getProjectsFromDB = async (userId: string, search?: string,status?:string) => {
+//   const orConditions: any[] = [];
+
   
-    return projects; 
+//   if (search && search.trim() !== "" && search!==undefined) {
+//     orConditions.push({ title: { contains: search, mode: 'insensitive' } });
+//   }
+
+//   if (status && status.trim() !== ""&& search!==undefined) {
+//     orConditions.push({ status: status.toUpperCase() as ProjectStatus });
+//   }
+//     const projects = await prisma.projects.findMany({
+//       where: {
+//         client:{
+//             userId
+//         },
+//         ...(orConditions.length > 0 && { OR: orConditions }),
+         
+//       },
+//       select: {
+//         project_id:true,
+//         client_id : true,
+//         title: true,
+//         budget: true,
+//         deadline: true,
+//         status: true,
+//         client: {
+//           select: {
+//             name: true,
+//           },
+//         },
+//       },
+//       orderBy: {
+//         deadline: 'desc',
+//       },
+//     });
+  
+//     return projects; 
+//   };
+const getProjectsFromDB = async (userId: string, search?: string, status?: ProjectStatus) => {
+  console.log("searhc: ",search,"\nstatus: ",status)
+  const whereCondition: any = {
+    client: {
+      userId,
+    },
   };
 
-const updateProjectData = async(projectId:string,userId:string,data:Partial<Projects>)=>{
+  if ((search !== undefined) && (search && search.trim() !== "")) {
+    whereCondition.title = { contains: search, mode: 'insensitive' };
+  }
 
-    // const isUserExists = await prisma.user.findFirst({
-    //     where: {
-    //       id: userId,
-    //     },
-    //   });
+  if ((status !== undefined) && (status && status.trim() !== "")) {
+    whereCondition.status = status.toUpperCase() as ProjectStatus;
+  }
+
+  const projects = await prisma.projects.findMany({
+    where: whereCondition,
+    select: {
+      project_id: true,
+      client_id: true,
+      title: true,
+      budget: true,
+      deadline: true,
+      status: true,
+      client: {
+        select: {
+          name: true,
+        },
+      },
+    },
+    orderBy: {
+      deadline: 'desc',
+    },
+  });
+
+  return projects;
+};
+
+const updateProjectData = async(userId:string,projectId:string,data:Partial<Projects>)=>{
+
+    const isUserExists = await prisma.user.findFirst({
+        where: {
+          id: userId,
+        },
+      });
     
-    //   if (!isUserExists) {
-    //     throw new ApiError(httpStatus.BAD_REQUEST, "User doesn't exists!", "", "");
-    //   }
+      if (!isUserExists) {
+        throw new ApiError(httpStatus.BAD_REQUEST, "User doesn't exists!", "", "");
+      }
       const isProjectExists = await prisma.projects.findFirst({
         where:{
             project_id:projectId,

@@ -10,7 +10,7 @@ const router = express.Router();
 
 router.post("/project",auth(userRoles.User),
   validateRequest(ProjectValidation.createProjectSchema),
-  isUserPresent,
+  // isUserPresent,
   ProjectController.createClient
 )
 
@@ -19,11 +19,13 @@ router.get("/get-projects",auth(userRoles.User),
 )
 
 router.patch("/update-project/:projectId",auth(userRoles.User),
-  isUserPresent,
+  // isUserPresent,
   ProjectController.updateProject
 )
 
 router.delete("/delete-project/:projectId",auth(userRoles.User),
-  isUserPresent,
+  // isUserPresent,
   ProjectController.deleteProject
 )
+
+export const ProjectRoutes = router;
