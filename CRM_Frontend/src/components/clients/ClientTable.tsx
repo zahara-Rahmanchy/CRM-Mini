@@ -4,6 +4,7 @@ import { PencilIcon, TrashIcon } from '@heroicons/react/16/solid';
 import { IClient } from '../../Interfaces/ClientInterface';
 import UpdateClientModal from './UpdateClientModal';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Thead = [
   "Name",
@@ -11,6 +12,7 @@ const Thead = [
   "Phone",
   "Company",
   "Notes",
+  "Add New Project",
   "Actions"
 ];
 
@@ -18,6 +20,11 @@ const ClientTable = () => {
     const queryClient = useQueryClient();
     const [selectedClient, setSelectedClient] = useState<IClient | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const navigate=useNavigate();
+
+    const handleAddProject = (email:string)=>{
+      navigate("/add-project", { state: { email } });
+    }
     const { 
         data: clients, 
         isLoading: clientsLoading, 
@@ -58,15 +65,12 @@ const ClientTable = () => {
     );
   }
 
-  if (clientError instanceof Error) {
-    return <div className="text-center text-red-500">Error: {clientError.message}</div>;
-  }
-
-  if (!clients?.data || clients.data.length === 0) {
-    return <div className="text-center text-gray-500">No clients found.</div>;
-  }
+ 
 
   return (
+    <>
+    {(clientError) && <div className="text-center text-red-500">Error: {clientError.message}</div>}
+   
     <div className="overflow-hidden">
       {/* Table for larger screens */}
       <div className="hidden md:block">
@@ -83,23 +87,34 @@ const ClientTable = () => {
               ))}
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-100">
+          <tbody className="divide-y divide-gray-100 border-blue-200 border rounded-2xl">
             {clients.data.map((client:IClient, index:number) => (
               <tr
                 key={client.client_id}
-                className={index % 2 === 0 ? "bg-white dark:bg-gray-700" : "bg-[#ecf3fe] dark:bg-gray-500 hover:bg-blue-50 transition-colors"}
+                className={index % 2 === 0 ? "bg-white  dark:bg-gray-700" : "bg-[#e5effe] dark:bg-gray-500 hover:bg-blue-50 transition-colors"}
               >
                 <td className="px-2 text-sm py-4 text-teal-800 dark:text-gray-100">{client.name}</td>
                 <td className="px-3 text-sm py-4 text-teal-800 dark:text-gray-100 ">{client.email}</td>
                 <td className="px-2 text-sm py-4 text-teal-800 dark:text-gray-100 ">{client.phone}</td>
                 <td className="px-2 text-sm py-4 text-teal-800 dark:text-gray-100 ">{client.company || "-"}</td>
                 <td className="px-2 text-sm py-4 text-teal-800 dark:text-gray-100">{client.notes || "-"}</td>
-                <td className="px-2 text-sm py-4 text-teal-800 flex md:flex gap-2 justify-center">
-                    <button className='cursor-pointer bg-gray-100 rounded-lg p-1' type='button' onClick={() => handleUpdate(client)}><PencilIcon className="h-6 w-6 text-teal-500" /></button>
-                    <button className='cursor-pointer bg-gray-100 rounded-lg p-1' type='button' onClick={()=>handleDelete(client.client_id)}> <TrashIcon className="h-6 w-6 text-red-500" /></button>
+                <td className="px-2 text-sm py-4 text-teal-800 dark:text-gray-100 text-center">
+                <button
+                  onClick={()=>handleAddProject(client.email)}
+                  className='cursor-pointer border hover:bg-teal-700 hover:text-white bg-border-200 dark:bg-gray-700 rounded-lg p-2 text-xs text-center mx-auto' 
+                >
+                Add New Project
+              </button>
                 </td>
+                <td className="px-2 text-sm py-4 text-teal-800 dark:text-gray-100 text-center md:flex gap-2 justify-center items-center">
+                    <button className='cursor-pointer bg-gray-100 dark:bg-gray-700 rounded-lg p-1' type='button' onClick={() => handleUpdate(client)}><PencilIcon className="h-6 w-6 text-teal-500" /></button>
+                    <button className='cursor-pointer bg-gray-100 dark:bg-gray-700  rounded-lg p-1' type='button' onClick={()=>handleDelete(client.client_id)}> <TrashIcon className="h-6 w-6 text-red-500" /></button>
+                </td>
+              
               </tr>
             ))}
+             {(!clients?.data || clients.data.length === 0)&& 
+             <td className="px-2 text-sm py-4 text-teal-800 dark:text-gray-100 text-center">No clients found.</td>}
           </tbody>
         </table>
       </div>
@@ -129,6 +144,7 @@ const ClientTable = () => {
         onClose={() => setIsModalOpen(false)}
       />
     </div>
+    </>
   );
 };
 

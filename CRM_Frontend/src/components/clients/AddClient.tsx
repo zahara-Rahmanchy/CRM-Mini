@@ -4,11 +4,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ClientFormData, clientUpdateSchema } from "../../utils/SchemaValidation/ClientValidation";
 import { createClient } from "../../api/clientApi";
+import { useState } from "react";
 
 // Receiving setIsOpen prop to close form after submit
 const AddClient = ({ setIsOpen }: { setIsOpen: (open: boolean) => void }) => {
   const queryClient = useQueryClient();
-
+const [loading,setLoading] = useState(false);
   const { register, handleSubmit, reset, formState: { errors } } = useForm<ClientFormData>({
     resolver: zodResolver(clientUpdateSchema),
   });
@@ -18,6 +19,7 @@ const AddClient = ({ setIsOpen }: { setIsOpen: (open: boolean) => void }) => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['clientsData'] });
       alert('Client created successfully!');
+      setLoading(false)
       reset(); // Clear the form
       setIsOpen(false); // Close the form after submit
     },
@@ -28,6 +30,7 @@ const AddClient = ({ setIsOpen }: { setIsOpen: (open: boolean) => void }) => {
   });
 
   const onSubmit = (data: ClientFormData) => {
+    setLoading(true)
     mutation.mutate(data);
   };
 
@@ -80,6 +83,7 @@ const AddClient = ({ setIsOpen }: { setIsOpen: (open: boolean) => void }) => {
           className="flex-1 border border-gray-300 dark:border-gray-700 rounded-lg px-4 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-teal-400"
         />
         <button
+        disabled={loading}
           type="submit"
           className="bg-teal-600 cursor-pointer hover:bg-teal-700 text-white font-semibold py-2 px-4 rounded-lg"
         >

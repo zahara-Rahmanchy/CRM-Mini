@@ -15,4 +15,4 @@ router.post("/get-reminders",auth(userRoles.User),
 //   validateRequest(clientValidationSchemas.clientInputValidation),
   ReminderController.getReminders
 )
-export const ClientRoutes = router;
+export const ReminderRoutes = router;

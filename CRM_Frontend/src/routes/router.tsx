@@ -9,6 +9,7 @@ import Projects from "../pages/AuthenticatedPages/Projects"
 import InteractionLogs from "../pages/AuthenticatedPages/InteractionLogs"
 import Login from "../components/Login";
 import ProtectedRoute from "./ProtectedRoute";
+import AddProject from "../pages/AuthenticatedPages/AddProject";
 export const router = createBrowserRouter([
     {
         element: <Home/>,
@@ -35,6 +36,10 @@ export const router = createBrowserRouter([
             {
                 path:"/Projects", element:<Projects/>
             },
+            { 
+                path:"/add-project" ,element:<AddProject/> 
+            },
+
             {
                 path:"/InteractionLogs", element:<InteractionLogs/>
             }

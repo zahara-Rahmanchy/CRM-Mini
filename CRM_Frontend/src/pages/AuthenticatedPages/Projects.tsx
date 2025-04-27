@@ -1,8 +1,11 @@
-import React from 'react'
+
+import ProjectTable from '../../components/projects/projectTable'
 
 const Projects = () => {
   return (
-    <div>Projects</div>
+    <section>
+      <ProjectTable/>
+    </section>
   )
 }
 

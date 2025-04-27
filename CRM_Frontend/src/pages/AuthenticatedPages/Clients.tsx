@@ -10,25 +10,25 @@ const Clients = () => {
   return (
     <section>
       {/* Top Section: Button + Search */}
-      <div className="w-full mb-10 flex md:flex-row flex-col items-center  justify-between">
+      <div className="w-full mb-10 flex md:flex-row flex-col gap-2 md:items-center  justify-between">
         <button
           onClick={() => setIsOpen(prev => !prev)}
-          className="bg-transparent text-sm border border-teal-300 dark:border-gray-500 dark:text-gray-100 hover:bg-teal-700 cursor-pointer hover:text-white text-teal-700 font-semibold py-2 px-4 rounded-lg md:mb-0"
+          className="bg-transparent text-sm border md:order-1 order-2 border-teal-300 dark:border-gray-500 dark:text-gray-100 hover:bg-teal-700 cursor-pointer hover:text-white text-teal-700 font-semibold py-2 px-4 rounded-lg md:mb-0"
         >
           {isOpen ? "Close Form" : "+ Add New Client"}
         </button>
 
-        <div>
+        {/* <div>
           <input
-            className="border border-teal-300 dark:border-gray-500 px-2 py-1 rounded-lg"
+            className="border border-teal-300 dark:border-gray-500 px-2 py-1 rounded-lg w-full"
             placeholder="Search"
           />
-        </div>
+        </div> */}
       </div>
 
       {/* Dropdown Form Below */}
       {isOpen && (
-        <div className="w-full mb-10 transition-transform duration-500">
+        <div className={`w-full mb-10`}>
           <AddClient setIsOpen={setIsOpen} />
         </div>
       )}

@@ -57,6 +57,7 @@ import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import ThemeButton from '../components/ThemeButton';
 import Sidebar from "../components/Sidebar";
+import ReminderForm from '../components/reminders/ReminderForm';
 
 const AppLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -97,6 +98,8 @@ const AppLayout = () => {
 
           {/* Right-side Panel */}
           <aside className="overflow-y:scroll dark:bg-gray-800 dark:text-gray-100 md:block md:w-64 w-[90%] mx-auto md:m-4 rounded-2xl bg-white p-4 shadow-md">
+          <h2 className="text-lg font-semibold text-[#157776] mb-4 dark:text-gray-100">Add a Reminder</h2>
+            <ReminderForm/>
             <h2 className="text-lg font-semibold text-[#157776] mb-4 dark:text-gray-100">Reminders</h2>
             <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-200">
               <li>📌 Follow up with client</li>

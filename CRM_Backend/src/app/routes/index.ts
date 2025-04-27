@@ -4,6 +4,7 @@ import { AuthRoutes } from "../modules/Auth/AuthRoute";
 import { ClientRoutes } from "../modules/Clients/ClientRoutes";
 import { ProjectRoutes } from "../modules/Projects/ProjectRoutes";
 import { MetaRoutes } from "../modules/DashboardMetaData/MetaRoute";
+import { ReminderRoutes } from "../modules/Reminders/ReminderRoute";
 
 
 
@@ -29,6 +30,10 @@ const moduleRoutes = [
   {
     path: "/",
     route: MetaRoutes,
+  },
+  {
+    path: "/",
+    route: ReminderRoutes,
   },
 ];
 
