@@ -1,7 +1,7 @@
 import './App.css';
 
-import Home from './pages/Home';
-import ThemeButton from "./components/ThemeButton"
+// import Home from './pages/Home';
+// import ThemeButton from "./components/ThemeButton"
 
 function App() {
  
