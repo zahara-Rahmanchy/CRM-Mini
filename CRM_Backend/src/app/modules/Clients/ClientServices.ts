@@ -3,7 +3,7 @@ import prisma from "../../../shared/prisma";
 
 import ApiError from "../../Errors/ApiError";
 import { IClientData } from "./ClientInterface";
-import { Clients } from "@prisma/client";
+import { Clients, Prisma } from "@prisma/client";
 
 const createClientIntoDB = async (data: IClientData, id: string) => {
     console.log("data: ", data, "\n", "id:", id);
@@ -42,25 +42,57 @@ const createClientIntoDB = async (data: IClientData, id: string) => {
   };
 
 //   get and also search based on name,email or company
-const getClientsFromDB = async (userId: string,search?: string,) => {
-  console.log("userID: ",userId)
-    const clients = await prisma.clients.findMany({
-      where: {
-        userId,
-        OR:search?[
-            { name: { contains: search, mode: 'insensitive' } },
-            { email: { contains: search, mode: 'insensitive' } },
-            { company: { contains: search, mode: 'insensitive' } },
-        ]: undefined
-         
-      },
-      orderBy: {
-        createdAt: 'desc',
-      },
-    });
-    console.log("clients: ",clients)
-    return clients; 
+const getClientsFromDB = async (userId: string, search?: string) => {
+  console.log("userID: ", userId, "search: ", search);
+
+  let whereCondition: any = {
+    userId,
   };
+
+  // if (search !== undefined && search.trim() !== "") {
+  //   whereCondition = {
+  //     userId,
+  //     OR: [
+  //       { name: { contains: search, mode: 'insensitive' } },
+  //       { email: { contains: search, mode: 'insensitive' } },
+  //       { company: { contains: search, mode: 'insensitive' } },
+  //     ],
+  //   };
+  // }
+
+  const clients = await prisma.clients.findMany({
+    where: whereCondition,
+    orderBy: {
+      createdAt: 'desc',
+    },
+  });
+
+  console.log("clients: ", clients);
+  return clients;
+};
+
+// const getClientsFromDB = async (userId: string,search?: string,) => {
+//   console.log("userID: ",userId,"search: ",search)
+//   const whereCondition: any = {
+//     userId,
+//   };
+//   // Add search filters if search exists
+//   if ((search !== undefined) && (search && search.trim() !== "")) {
+//     whereCondition.OR = [
+//       { name: { contains: search, mode: 'insensitive' } },
+//       { email: { contains: search, mode: 'insensitive' } },
+//       { company: { contains: search, mode: 'insensitive' } },
+//     ];
+//   }
+//     const clients = await prisma.clients.findMany({
+//       where: whereCondition,
+//       orderBy: {
+//         createdAt: 'desc',
+//       },
+//     });
+//     console.log("clients: ",clients)
+//     return clients; 
+//   };
 
 //   update,first check email if same client email exists for this user then not
 const updateClient = async (clientId: string, userId: string, data: Partial<Clients>) => {

@@ -25,6 +25,7 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   client Clients[]
+  reminders Reminders[]
   // interationLog InteractionLogs[]
   @@map("users")
 }
@@ -38,6 +39,7 @@ model Clients {
   notes String?
   user User @relation(fields: [userId], references: [id])
   projects Projects[]
+  reminders Reminders[]
   // interationLog InteractionLogs[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -79,20 +81,20 @@ model Projects {
  
 
 // }
-// model Reminders {
-//   id          String   @id @unique @default(uuid())
-//   message     String   // What the reminder is about
-//   date        DateTime // When to be reminded
-//   userId      String   // Which user the reminder belongs to
-//   projectId   String?  // If it's related to a project
-//   clientId    String?  // If it's related to a client
-//   createdAt   DateTime @default(now())
-//   updatedAt   DateTime @updatedAt
+model Reminders {
+  id          String   @id @unique @default(uuid())
+  message     String   // What the reminder is about
+  date        DateTime // When to be reminded
+  userId      String   // Which user the reminder belongs to
+  clientId   String?  // If it's related to a project
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
-//   user        User     @relation(fields: [userId], references: [id])
-//   project     Projects? @relation(fields: [projectId], references: [project_id])
-//   client      Clients?  @relation(fields: [clientId], references: [client_id])
-// }
+  user        User     @relation(fields: [userId], references: [id])
+ 
+  client      Clients?  @relation(fields: [clientId], references: [client_id])
+}
 
 // other can be added later
 enum userRoles {
