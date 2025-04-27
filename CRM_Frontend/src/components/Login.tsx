@@ -41,6 +41,7 @@ const Login = () => {
 
      
     },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onError: (error: any) => {
       // setLoading(false)
       alert(error?.response?.data?.message || 'Login failed!');

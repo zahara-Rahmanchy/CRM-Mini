@@ -22,12 +22,13 @@ const Sidebar = ({ sidebarOpen }:{sidebarOpen:boolean}) => {
         md:relative md:translate-x-0
       `}
     >
-    <h1 className="md:text-lg text-sm md:mt-auto mt-8 font-semibold border-b-2 border-gray-200 dark:border-gray-700 py-5">Customer Relationship Management</h1>
+    <h1 className="md:text-md text-sm md:mt-auto mt-8 font-semibold border-b-2 border-gray-200 dark:border-gray-700 py-5">Customer Relationship Management</h1>
       
       <nav className="flex flex-col gap-4 mt-4 ">
         <Link to="/Dashboard">Dashboard</Link>
+        <Link to="/Clients">Clients</Link>
         <Link to="/Projects">Projects</Link>
-        <Link to="/Client">Clients</Link>
+        
         <Link to="/InteractionLogs">Interaction Logs</Link>
         <button
          type="button"
