@@ -5,7 +5,9 @@
 This project is a **Mini-CRM platform** designed for freelancers to manage their clients, projects, interaction logs, and reminders. The system features secure authentication, a user-friendly frontend with light/dark mode, and a structured backend using JWT for authentication. This application enables freelancers to track their clients and projects effectively, and even handle reminders for meetings, calls, or follow-ups.
 
 ---
-
+### Test User: 
+ - email:maisha@gmail.com
+   password: 123456
 ## Tech Stack
 
 ### **Frontend**:
@@ -97,5 +99,72 @@ Here’s a basic **ERD**:
 
 ---
 
-## Folder Structure
+---
+
+## Installation & Setup
+
+### Prerequisites
+- **Node.js** (v16 or higher)
+- **PostgreSQL** database
+- **Docker** (Optional, for containerization)
+
+### Steps
+
+1. **Clone the repository**:
+    ```bash
+    git clone https://github.com/your-username/mini-crm.git
+    cd mini-crm
+    ```
+
+2. **Install Backend Dependencies**:
+    ```bash
+    cd backend
+    npm install
+    ```
+
+3. **Set up PostgreSQL Database**:
+   - Create a PostgreSQL database and update the connection URL in the `.env` file.
+   - If using **Docker**, you can run a PostgreSQL container with `docker-compose`.
+
+4. **Run Prisma Migrations**:
+    ```bash
+    npx prisma migrate dev
+    ```
+
+5. **Install Frontend Dependencies**:
+    ```bash
+    cd frontend
+    npm install
+    ```
+
+6. **Configure Environment Variables**:
+    - In the **backend** directory, create a `.env` file:
+    ```
+    DATABASE_URL=postgresql://user:password@localhost:5432/mydb
+    JWT_SECRET=mySecretKey
+    ```
+
+7. **Run the Application**:
+    - **Backend**:
+      ```bash
+      npm run dev
+      ```
+    - **Frontend**:
+      ```bash
+      npm run dev
+      ```
+
+8. **Access the Application**:
+    <!-- - Visit the frontend at `http://localhost:3000` -->
+    - Backend API is accessible at `https://furniturehub-eta.vercel.app/api/v1`
+
+---
+
+
+
+
+
+
+
+
 
